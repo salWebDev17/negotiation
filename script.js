@@ -37,6 +37,15 @@ renderGrid();
 const status = document.getElementById('status');
 status.textContent = `${VIDEOS.length} videos`;
 
+// Called by firebase-init.js when the admin dashboard's video list changes.
+// Only overrides the built-in sample videos once real ones exist.
+window.setVideosFromAdmin = function(arr){
+  if(!arr || !arr.length) return;
+  VIDEOS = arr;
+  renderGrid();
+  status.textContent = `${VIDEOS.length} videos`;
+};
+
 // refresh button — new "model", reshuffled feed
 const refreshBtn = document.getElementById('refreshBtn');
 refreshBtn.addEventListener('click', ()=>{
