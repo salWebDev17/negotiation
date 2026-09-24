@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reelio Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+main{max-width:760px;}
+.gate{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:70vh;gap:14px;padding:20px;}
+.gate h1{font-size:22px;margin:0;}
+.gate p{color:var(--sub);font-size:14px;margin:0 0 8px;max-width:320px;}
+.gbtn{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);padding:11px 20px;border-radius:24px;font-weight:600;font-size:14.5px;cursor:pointer;color:var(--text);}
+.gbtn:active{transform:scale(.97);}
+.tabs{display:flex;gap:6px;margin:6px 0 16px;}
+.tab{padding:8px 16px;border-radius:20px;font-size:13.5px;font-weight:600;background:var(--surface);border:1px solid var(--line);cursor:pointer;}
+.tab.active{background:var(--text);color:var(--bg);border-color:var(--text);}
+.panel{display:none;}
+.panel.active{display:block;}
+.form-card{background:var(--surface);border-radius:14px;padding:16px;margin-bottom:18px;box-shadow:var(--card-shadow);}
+.form-card h3{margin:0 0 12px;font-size:15px;}
+.form-card input,.form-card select{width:100%;padding:10px 11px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13.5px;margin-bottom:9px;font-family:inherit;}
+.form-card label{font-size:12px;color:var(--sub);display:block;margin:0 0 3px;}
+.form-row{display:flex;gap:8px;}
+.form-row>div{flex:1;}
+.btn{border:none;border-radius:9px;padding:10px 16px;font-weight:600;font-size:13.5px;cursor:pointer;}
+.btn-primary{background:var(--accent);color:#fff;width:100%;}
+.vid-row{display:flex;gap:10px;align-items:center;background:var(--surface);border-radius:12px;padding:10px;margin-bottom:10px;box-shadow:var(--card-shadow);}
+.vid-row .vthumb{width:64px;height:40px;border-radius:6px;background-size:cover;background-position:center;flex-shrink:0;}
+.vid-row .vinfo{flex:1;min-width:0;}
+.vid-row .vinfo .t{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.vid-row .vinfo .d{font-size:11.5px;color:var(--sub);}
+.vid-row button{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;color:var(--text);}
+table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow);}
+th,td{text-align:left;padding:10px 12px;font-size:12.5px;border-bottom:1px solid var(--line);}
+th{color:var(--sub);font-weight:600;font-size:11.5px;text-transform:none;}
+td{word-break:break-word;}
+#topbar{display:flex;justify-content:flex-end;padding:0 12px;}
+#signOutBtn{font-size:12.5px;color:var(--sub);background:none;border:none;cursor:pointer;padding:8px;display:none;}
+.hint{font-size:12px;color:var(--sub);margin:0 0 14px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span class="dot"></span>Reelio Admin</div>
+</header>
+<div id="topbar"><button id="signOutBtn">Sign out</button></div>
+
+<main>
+  <div id="gateScreen" class="gate">
+    <h1>Admin sign-in</h1>
+    <p>Only visaldy1@gmail.com can access this dashboard.</p>
+    <button class="gbtn" id="signInBtn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.7 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.5 29.6 4.5 24 4.5 12.7 4.5 3.5 13.7 3.5 25S12.7 45.5 24 45.5 44.5 36.3 44.5 25c0-1.5-.2-2.9-.9-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.5 29.6 4.5 24 4.5c-7.7 0-14.3 4.4-17.7 10.2z"/><path fill="#4CAF50" d="M24 45.5c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.6C29.6 36.6 27 37.5 24 37.5c-5.4 0-9.9-3.3-11.3-8l-6.6 5C9.6 41 16.2 45.5 24 45.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.7-3.6 5l6.6 5.6C41.6 36 44.5 31.1 44.5 25c0-1.5-.2-2.9-.9-4.5z"/></svg>
+      Sign in with Google
+    </button>
+  </div>
+
+  <div id="deniedScreen" class="gate" style="display:none">
+    <h1>Not authorized</h1>
+    <p>This Google account isn't allowed to manage Reelio.</p>
+    <button class="gbtn" id="signOutBtn2">Sign out and try another account</button>
+  </div>
+
+  <div id="dash" style="display:none">
+    <div class="tabs">
+      <button class="tab active" data-panel="videosPanel">Videos</button>
+      <button class="tab" data-panel="visitsPanel">Visitors</button>
+    </div>
+
+    <section id="videosPanel" class="panel active">
+      <div class="form-card">
+        <h3 id="formTitle">Add a video</h3>
+        <input id="fTitle" placeholder="Title">
+        <div class="form-row">
+          <div><label>Duration</label><input id="fDuration" placeholder="e.g. 4:03"></div>
+          <div><label>Views</label><input id="fViews" placeholder="e.g. 12K views"></div>
+        </div>
+        <div class="form-row">
+          <div><label>Posted</label><input id="fAgo" placeholder="e.g. 2 days ago"></div>
+          <div><label>Banner color</label>
+            <select id="fColor">
+              <option value="0">Indigo → Coral</option>
+              <option value="1">Teal → Indigo</option>
+              <option value="2">Coral → Amber</option>
+              <option value="3">Violet → Pink</option>
+              <option value="4">Cyan → Green</option>
+              <option value="5">Rose → Amber</option>
+            </select>
+          </div>
+        </div>
+        <label>Banner image URL (optional)</label>
+        <input id="fBanner" placeholder="https://... or a filename">
+        <label>Video file URL (optional — leave blank for placeholder)</label>
+        <input id="fSrc" placeholder="https://... or a filename, .mp4">
+        <button class="btn btn-primary" id="saveBtn">Add video</button>
+      </div>
+      <p class="hint">Editing a video below loads it into this form — change it and press "Save changes".</p>
+      <div id="videoList"></div>
+    </section>
+
+    <section id="visitsPanel" class="panel">
+      <p class="hint">Every visit to the live site logs here: IP address, browser/device, and time.</p>
+      <table>
+        <thead><tr><th>Time</th><th>IP</th><th>Device</th></tr></thead>
+        <tbody id="visitRows"></tbody>
+      </table>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc,
+  query, orderBy, limit
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { FIREBASE_CONFIG, ADMIN_EMAIL } from "./firebase-config.js";
+
+const PALETTES = [
+  ['#5b5fef','#ff6b4a'],['#0ea5a3','#5b5fef'],['#ff6b4a','#ffb020'],
+  ['#7c3aed','#ec4899'],['#0891b2','#22c55e'],['#f43f5e','#f59e0b']
+];
+
+if(!FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey.startsWith("PASTE_")){
+  document.getElementById('gateScreen').innerHTML =
+    '<h1>Not set up yet</h1><p>Open firebase-config.js and follow the numbered steps at the top to connect this dashboard to your Firebase project.</p>';
+} else {
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  const gateScreen = document.getElementById('gateScreen');
+  const deniedScreen = document.getElementById('deniedScreen');
+  const dash = document.getElementById('dash');
+  const signOutBtn = document.getElementById('signOutBtn');
+
+  document.getElementById('signInBtn').addEventListener('click', () => signInWithPopup(auth, provider).catch(e=>alert(e.message)));
+  document.getElementById('signOutBtn').addEventListener('click', () => signOut(auth));
+  document.getElementById('signOutBtn2').addEventListener('click', () => signOut(auth));
+
+  onAuthStateChanged(auth, user => {
+    if(!user){
+      gateScreen.style.display='flex'; deniedScreen.style.display='none'; dash.style.display='none'; signOutBtn.style.display='none';
+      return;
+    }
+    if(user.email !== ADMIN_EMAIL){
+      gateScreen.style.display='none'; deniedScreen.style.display='flex'; dash.style.display='none'; signOutBtn.style.display='none';
+      return;
+    }
+    gateScreen.style.display='none'; deniedScreen.style.display='none'; dash.style.display='block'; signOutBtn.style.display='inline-block';
+    startDashboard();
+  });
+
+  // tabs
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById(t.dataset.panel).classList.add('active');
+    });
+  });
+
+  let started = false;
+  let editingId = null;
+  const videoList = document.getElementById('videoList');
+  const visitRows = document.getElementById('visitRows');
+
+  function resetForm(){
+    editingId = null;
+    document.getElementById('formTitle').textContent = 'Add a video';
+    document.getElementById('saveBtn').textContent = 'Add video';
+    ['fTitle','fDuration','fViews','fAgo','fBanner','fSrc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fColor').value = '0';
+  }
+
+  function startDashboard(){
+    if(started) return; started = true;
+
+    document.getElementById('saveBtn').addEventListener('click', async ()=>{
+      const data = {
+        title: document.getElementById('fTitle').value.trim(),
+        duration: document.getElementById('fDuration').value.trim() || '0:00',
+        views: document.getElementById('fViews').value.trim(),
+        ago: document.getElementById('fAgo').value.trim(),
+        colors: PALETTES[Number(document.getElementById('fColor').value)],
+        banner: document.getElementById('fBanner').value.trim(),
+        src: document.getElementById('fSrc').value.trim()
+      };
+      if(!data.title){ alert('Please enter a title.'); return; }
+      if(editingId){ await updateDoc(doc(db,'videos',editingId), data); }
+      else { await addDoc(collection(db,'videos'), data); }
+      resetForm();
+    });
+
+    onSnapshot(collection(db,'videos'), snap=>{
+      videoList.innerHTML='';
+      snap.forEach(docSnap=>{
+        const v = docSnap.data();
+        const bg = v.banner ? `background-image:url('${v.banner}')` : `background:linear-gradient(135deg,${(v.colors||PALETTES[0])[0]},${(v.colors||PALETTES[0])[1]})`;
+        const row = document.createElement('div');
+        row.className='vid-row';
+        row.innerHTML = `
+          <div class="vthumb" style="${bg}"></div>
+          <div class="vinfo"><div class="t">${v.title}</div><div class="d">${v.duration||''} · ${v.views||''}</div></div>
+          <button data-act="edit">Edit</button>
+          <button data-act="del">Delete</button>`;
+        row.querySelector('[data-act="edit"]').addEventListener('click', ()=>{
+          editingId = docSnap.id;
+          document.getElementById('formTitle').textContent = 'Edit video';
+          document.getElementById('saveBtn').textContent = 'Save changes';
+          document.getElementById('fTitle').value = v.title||'';
+          document.getElementById('fDuration').value = v.duration||'';
+          document.getElementById('fViews').value = v.views||'';
+          document.getElementById('fAgo').value = v.ago||'';
+          document.getElementById('fBanner').value = v.banner||'';
+          document.getElementById('fSrc').value = v.src||'';
+          window.scrollTo({top:0,behavior:'smooth'});
+        });
+        row.querySelector('[data-act="del"]').addEventListener('click', ()=>{
+          if(confirm(`Delete "${v.title}"?`)) deleteDoc(doc(db,'videos',docSnap.id));
+        });
+        videoList.appendChild(row);
+      });
+    });
+
+    const visitsQ = query(collection(db,'visits'), orderBy('time','desc'), limit(200));
+    onSnapshot(visitsQ, snap=>{
+      visitRows.innerHTML='';
+      snap.forEach(docSnap=>{
+        const v = docSnap.data();
+        const t = v.time && v.time.toDate ? v.time.toDate().toLocaleString() : '—';
+        const device = summarizeDevice(v.userAgent||'');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${t}</td><td>${v.ip||'—'}</td><td>${device}</td>`;
+        visitRows.appendChild(tr);
+      });
+    });
+  }
+
+  function summarizeDevice(ua){
+    let os = 'Unknown OS';
+    if(/Windows/.test(ua)) os='Windows';
+    else if(/iPhone|iPad/.test(ua)) os='iOS';
+    else if(/Android/.test(ua)) os='Android';
+    else if(/Mac OS/.test(ua)) os='macOS';
+    else if(/Linux/.test(ua)) os='Linux';
+    let browser = 'Unknown browser';
+    if(/Edg\//.test(ua)) browser='Edge';
+    else if(/Chrome\//.test(ua)) browser='Chrome';
+    else if(/Safari\//.test(ua) && !/Chrome/.test(ua)) browser='Safari';
+    else if(/Firefox\//.test(ua)) browser='Firefox';
+    return `${browser} · ${os}`;
+  }
+}
+</script>
+</body>
+</html>
+
