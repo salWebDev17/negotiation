@@ -14,7 +14,7 @@
       and paste in the contents of firestore-rules.txt (included with
       these files), then click "Publish".
    6. Upload index.html, style.css, script.js, admin.html and this file
-      to your web host (or open admin.html locall
+      to your web host (or open admin.html locally to test).
    ============================================================ */
 
 export const FIREBASE_CONFIG = {
@@ -24,9 +24,14 @@ export const FIREBASE_CONFIG = {
   storageBucket: "negotiation-46372.firebasestorage.app",
   messagingSenderId: "1013471011085",
   appId: "1:1013471011085:web:bc79da025c1af961c51044",
-  Firebasekey: BI2P0Y6sU4srwBaKaN1ycnoo4fFgtdYJU1bTAIzb63D5u3xNzwd5K0tB3clHFpPP2Ya4IgNLgfHEUkCWNi4lz3U,
+  measurementId: "G-LHHDJHFWR4"
 };
 
 // Only this Gmail address is allowed to use the admin dashboard.
 export const ADMIN_EMAIL = "visaldy1@gmail.com";
-  
+
+// This looks like a Firebase Cloud Messaging "VAPID key" (used for web push
+// notifications), not part of the core config above. Nothing in this site
+// currently sends push notifications, so this value isn't used by any code
+// yet — it's just saved here in case you add that feature later.
+export const VAPID_KEY = "BI2P0Y6sU4srwBaKaN1ycnoo4fFgtdYJU1bTAIzb63D5u3xNzwd5K0tB3clHFpPP2Ya4IgNLgfHEUkCWNi4lz3U";
