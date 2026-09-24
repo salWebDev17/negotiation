@@ -24,7 +24,6 @@ export const FIREBASE_CONFIG = {
   storageBucket: "negotiation-46372.firebasestorage.app",
   messagingSenderId: "1013471011085",
   appId: "1:1013471011085:web:bc79da025c1af961c51044",
-  measurementId: "G-LHHDJHFWR4"
 };
 
 // Only this Gmail address is allowed to use the admin dashboard.
