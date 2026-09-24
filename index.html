@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reelio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span class="dot"></span>Reelio</div>
+  <button class="icon-btn" id="refreshBtn" title="Refresh feed">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>
+  </button>
+</header>
+
+<main>
+  <div id="status"></div>
+  <section id="homeView"><div class="grid" id="grid"></div></section>
+
+  <section id="watchView">
+    <div class="backbar">
+      <button class="icon-btn" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span>Now playing</span>
+    </div>
+    <div class="player" id="playerBox">
+      <canvas id="canvas"></canvas>
+      <video id="realVideo" playsinline></video>
+      <div class="overlay-btn" id="playToggle"><div class="circle" id="playCircle"></div></div>
+
+      <div class="controls" id="controls">
+        <div class="seek" id="seek">
+          <div class="track"><div class="fill" id="seekFill"></div></div>
+          <div class="knob" id="seekKnob"></div>
+        </div>
+        <div class="ctrl-row">
+          <button id="ctrlPlay" title="Play/Pause">
+            <svg id="ctrlPlayIcon" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="vol-wrap" id="volWrap">
+            <button id="muteBtn" title="Mute">
+              <svg id="volIcon" viewBox="0 0 24 24" fill="#fff"><path d="M3 10v4h4l5 5V5L7 10H3z"/><path d="M16 8a5 5 0 0 1 0 8" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+            </button>
+            <input type="range" id="volSlider" min="0" max="1" step="0.05" value="1">
+          </div>
+          <span class="time" id="timeLabel">0:00 / 0:00</span>
+          <div class="spacer"></div>
+          <button id="fullscreenBtn" title="Fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <h1 class="watch-title" id="wTitle"></h1>
+    <p class="watch-sub" id="wSub"></p>
+    <p class="desc" id="wDesc"></p>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
