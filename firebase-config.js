@@ -18,12 +18,13 @@
    ============================================================ */
 
 export const FIREBASE_CONFIG = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyAUhiBcjfNJnCFDqZahUXQxp7ghxb6xWBU",
+  authDomain: "negotiation-46372.firebaseapp.com",
+  projectId: "negotiation-46372",
+  storageBucket: "negotiation-46372.firebasestorage.app",
+  messagingSenderId: "1013471011085",
+  appId: "1:1013471011085:web:bc79da025c1af961c51044",
+  measurementId: "G-LHHDJHFWR4"
 };
 
 // Only this Gmail address is allowed to use the admin dashboard.
