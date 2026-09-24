@@ -68,6 +68,11 @@ const seekKnob = document.getElementById('seekKnob');
 const timeLabel = document.getElementById('timeLabel');
 const volWrap = document.getElementById('volWrap');
 const volSlider = document.getElementById('volSlider');
+const miniBar = document.getElementById('miniBar');
+const miniThumb = document.getElementById('miniThumb');
+const miniProgressFill = document.getElementById('miniProgressFill');
+const miniTitle = document.getElementById('miniTitle');
+const miniPlayIcon = document.getElementById('miniPlayIcon');
 
 let currentVideo = null;
 let playing = true;
@@ -78,9 +83,9 @@ let totalDur = 60;    // seconds, parsed from the "duration" field
 let hideTimer = null;
 
 function parseDuration(str){
-  const parts = String(str).split(':').map(Number);
-  if(parts.length===2) return parts[0]*60+parts[1];
-  if(parts.length===3) return parts[0]*3600+parts[1]*60+parts[2];
+  const parts = String(str).split(/[:.]/).map(Number);
+  if(parts.length===2 && !parts.some(isNaN)) return parts[0]*60+parts[1];
+  if(parts.length===3 && !parts.some(isNaN)) return parts[0]*3600+parts[1]*60+parts[2];
   return 60;
 }
 function fmtTime(s){
@@ -100,6 +105,7 @@ function updateSeekUI(){
   seekFill.style.width = pct+'%';
   seekKnob.style.left = pct+'%';
   timeLabel.textContent = `${fmtTime(getCurrent())} / ${fmtTime(total)}`;
+  miniProgressFill.style.width = pct+'%';
 }
 
 function sizeCanvas(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; }
@@ -145,6 +151,9 @@ function setPlayIcons(){
   c.innerHTML = playing
     ? '<svg viewBox="0 0 24 24" fill="#14161f"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>'
     : '<svg viewBox="0 0 24 24" fill="#14161f"><path d="M8 5v14l11-7z"/></svg>';
+  miniPlayIcon.innerHTML = playing
+    ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'
+    : '<path d="M8 5v14l11-7z"/>';
 }
 
 function togglePlay(){
@@ -170,21 +179,43 @@ function showControls(){
   if(playing) hideTimer = setTimeout(()=>controls.classList.add('hide'), 2600);
 }
 
+function showMiniBar(){
+  if(!currentVideo) return;
+  miniTitle.textContent = currentVideo.title;
+  miniThumb.style.background = currentVideo.banner
+    ? `url('${currentVideo.banner}') center/cover`
+    : `linear-gradient(135deg,${currentVideo.pal[0]},${currentVideo.pal[1]})`;
+  miniBar.classList.remove('hidden');
+}
+function hideMiniBar(){ miniBar.classList.add('hidden'); }
+
 function openVideo(id){
+  // same video already loaded (e.g. reopening from the mini-bar) — just show
+  // the watch page again, keep playing right where it left off
+  if(currentVideo && currentVideo.id===id){
+    hideMiniBar();
+    homeView.style.display='none';
+    watchView.style.display='block';
+    window.scrollTo(0,0);
+    showControls();
+    return;
+  }
+
   currentVideo = VIDEOS.find(v=>v.id===id);
   if(!currentVideo) return;
   document.getElementById('wTitle').textContent = currentVideo.title;
-  document.getElementById('wSub').textContent = `${currentVideo.views} · ${currentVideo.ago}`;
+  document.getElementById('wSub').textContent = `${currentVideo.views||''} · ${currentVideo.ago||''}`;
   document.getElementById('wDesc').textContent = `A short look at "${currentVideo.title.toLowerCase()}". Thanks for watching.`;
   homeView.style.display='none';
   watchView.style.display='block';
+  hideMiniBar();
   elapsed = 0; lastFrameT = null;
   totalDur = parseDuration(currentVideo.duration);
   playing = true;
   setPlayIcons();
   showControls();
   window.scrollTo(0,0);
-      cancelAnimationFrame(rafId);
+  cancelAnimationFrame(rafId);
   if(currentVideo.src){
     canvas.style.display='none';
     realVideo.style.display='block';
@@ -201,17 +232,38 @@ function openVideo(id){
     requestAnimationFrame(()=>{ sizeCanvas(); rafId = requestAnimationFrame(loop); });
   }
 }
+
+// going "back" no longer stops the video — it keeps playing in the
+// background (audio/video element is untouched) and a mini-bar appears,
+// same idea as Spotify's persistent player.
 function closeVideo(){
-  cancelAnimationFrame(rafId);
-  realVideo.pause();
   watchView.style.display='none';
   homeView.style.display='block';
+  if(currentVideo) showMiniBar();
+}
+
+// the mini-bar's own close (×) button fully stops playback
+function stopPlayback(){
+  cancelAnimationFrame(rafId);
+  realVideo.pause();
+  realVideo.removeAttribute('src');
+  playing = false;
+  currentVideo = null;
+  hideMiniBar();
 }
 grid.addEventListener('click', e=>{
   const card = e.target.closest('.card');
   if(card) openVideo(card.dataset.id);
 });
 document.getElementById('backBtn').addEventListener('click', closeVideo);
+
+// mini-bar: tap it to reopen the full watch view, right where it left off
+miniBar.addEventListener('click', e=>{
+  if(e.target.closest('#miniPlayBtn') || e.target.closest('#miniCloseBtn')) return;
+  if(currentVideo) openVideo(currentVideo.id);
+});
+document.getElementById('miniPlayBtn').addEventListener('click', e=>{ e.stopPropagation(); togglePlay(); });
+document.getElementById('miniCloseBtn').addEventListener('click', e=>{ e.stopPropagation(); stopPlayback(); });
 
 // center tap / big play-pause button
 document.getElementById('playToggle').addEventListener('click', togglePlay);
